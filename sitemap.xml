@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;url&gt;</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;!-- This is the address of your main page --&gt;</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;loc&gt;https://wasted-or-worth-it-calculator.netlify.app/&lt;/loc&gt;</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;!-- Update this date if you modify index.html later --&gt;</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;lastmod&gt;2025-04-01&lt;/lastmod&gt;</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;!-- How often the content might change (optional) --&gt;</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;changefreq&gt;monthly&lt;/changefreq&gt;</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;!-- Priority relative to other pages on YOUR site (1.0 is highest) --&gt;</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;priority&gt;1.0&lt;/priority&gt;</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;/url&gt;</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;!-- If you add more pages later</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+  <row>
+    <_xml_version_1_0_encoding_UTF_8_>&lt;/urlset&gt;</_xml_version_1_0_encoding_UTF_8_>
+  </row>
+</root>

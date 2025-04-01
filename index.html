@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- === SEO Meta Tags === -->
+    <!-- Update Title: Be descriptive and include keywords -->
+    <title>Subscription Value Calculator - Wasted or Worth It?</title>
+    <!-- Meta Description: Shown in search results. Make it compelling! -->
+    <meta name="description" content="Calculate the true cost-per-use of your subscriptions (Netflix, Spotify, etc.) and see if they're good value or wasted money. Simple, free online tool.">
+    <!-- ====================== -->
+
+    <!-- === Verification Tag Placeholder === -->
+    <!-- You might add a Google Search Console verification tag here later, like: -->
+    <!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE_HERE" /> -->
+    <!-- ==================================== -->
+
+    <!-- Link to External CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Optional: Google Fonts link -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+    <!-- Site Header (Top Blue Bar) -->
+    <header class="site-header">
+        <h1>Wasted or Worth It?</h1>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="site-main">
+
+        <!-- White Content Box -->
+        <div class="container">
+            <div class="intro-text">
+                <h2>Subscription Value Calculator</h2>
+                <!-- Slightly more descriptive text for users and SEO -->
+                <p>Are your monthly or yearly subscriptions actually worth the cost? Select a service, enter its price and how often you use it per month to find its true cost-per-use and see if it's good value!</p>
+            </div>
+
+            <!-- Calculator Form -->
+            <form id="calculator-form">
+                <div>
+                    <label for="subscription-select">Subscription Name:</label>
+                    <select id="subscription-select" required>
+                        <option value="" disabled selected>-- Select a Subscription --</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                    <small class="field-note">If your specific service isn't listed, choose a generic option from the relevant category.</small>
+                </div>
+
+                <div>
+                    <label for="subscription-cost">Subscription Cost (<span class="currency-symbol">$</span>):</label>
+                    <input type="number" id="subscription-cost" step="0.01" min="0" placeholder="e.g., 15.99" required>
+                </div>
+
+                <div>
+                    <label for="cost-frequency">Cost Frequency:</label>
+                    <select id="cost-frequency" required>
+                        <option value="monthly" selected>Monthly</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="usage-frequency">Times Used Per Month:</label>
+                    <input type="number" id="usage-frequency" min="0" placeholder="e.g., 4" required>
+                    <small class="field-note">Estimate uses: movies watched, days listened, projects completed, articles read, gym visits, etc.</small>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="calculate-btn">Calculate Value</button>
+                    <button type="reset" id="reset-btn" class="button-secondary">Reset</button>
+                </div>
+            </form> <!-- End of Form -->
+
+            <!-- Results Area (Hidden Initially) -->
+            <div id="results">
+                <div id="result-content">
+                    <!-- Results will be injected here by JavaScript -->
+                </div>
+                <div id="error-message" class="error-message" style="display: none;">
+                    <!-- Error messages will be shown here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Suggestions Area (Hidden Initially) -->
+            <div id="suggestions">
+                <!-- Suggestions will be injected here by JavaScript -->
+            </div>
+
+        </div> <!-- End of .container -->
+
+        <!-- Ad Placeholder -->
+        <div class="ad-placeholder">
+            Advertisement Placeholder
+        </div>
+
+    </main> <!-- End of .site-main -->
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        <p>&copy; <span id="current-year">2024</span> Wasted or Worth It? - Simple tools for smarter spending.</p>
+        <!-- Optional: Add links to privacy policy or other pages here if needed -->
+    </footer>
+
+    <!-- Link to External JavaScript (defer ensures HTML loads first) -->
+    <script src="script.js" defer></script>
+
+</body>
+</html>
