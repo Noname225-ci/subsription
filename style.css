@@ -1109,3 +1109,310 @@ select option { font-family: 'DM Sans', sans-serif; font-weight: 400; }
     animation: shimmer 1.2s infinite linear;
     pointer-events: none;
 }
+
+
+/* =====================================================
+   MY SUBSCRIPTIONS LIST — localStorage Panel
+   ===================================================== */
+
+/* Save button (appears inside results) */
+.save-action {
+    display: none;
+    align-items: center;
+    gap: .75rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+.save-action.visible { display: flex; }
+
+.btn-save {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .65rem 1.25rem;
+    background: transparent;
+    border: 2px solid var(--navy-mid);
+    border-radius: var(--radius-sm);
+    color: var(--navy-mid);
+    font-family: 'Syne', sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition);
+    letter-spacing: .02em;
+}
+.btn-save:hover {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(13,27,62,.25);
+}
+.btn-save:active { transform: translateY(0) scale(.97); }
+.btn-save.saved {
+    background: var(--emerald);
+    border-color: var(--emerald);
+    color: #fff;
+    pointer-events: none;
+}
+.save-btn-icon { font-size: 1.1rem; line-height: 1; }
+
+.save-confirm {
+    font-size: .85rem;
+    color: var(--emerald-dk);
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+.save-confirm.visible { opacity: 1; }
+
+/* ===== MY LIST SECTION ===== */
+.mylist-section {
+    padding: 2rem 0 2.5rem;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    display: none; /* shown by JS when list has items */
+}
+.mylist-section.visible { display: block; }
+
+.mylist-header { margin-bottom: 1.25rem; }
+
+.mylist-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: .3rem;
+}
+
+.mylist-title-row h2 {
+    font-size: 1.25rem;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.mylist-count-badge {
+    background: var(--navy);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 700;
+    padding: .15rem .5rem;
+    border-radius: 99px;
+    font-family: 'DM Sans', sans-serif;
+    min-width: 22px;
+    text-align: center;
+}
+
+.mylist-subtitle {
+    font-size: .82rem;
+    color: var(--text-light);
+}
+
+.btn-clear-all {
+    background: transparent;
+    border: 1.5px solid #fecaca;
+    color: var(--red);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .82rem;
+    font-weight: 700;
+    padding: .4rem .85rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+.btn-clear-all:hover { background: #fef2f2; border-color: var(--red); }
+
+/* Totals Grid */
+.mylist-totals {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .6rem;
+    margin-bottom: 1rem;
+}
+
+.total-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: .85rem .9rem;
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+    box-shadow: var(--shadow-sm);
+}
+.total-card--waste { border-color: #fecaca; background: #fff1f2; }
+.total-card--good  { border-color: #a7f3d0; background: #ecfdf5; }
+
+.total-label {
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--text-light);
+}
+.total-card--waste .total-label { color: #ef4444; }
+.total-card--good  .total-label { color: var(--emerald-dk); }
+
+.total-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1;
+}
+.total-card--waste .total-value { color: var(--red-dk); }
+.total-card--good  .total-value { color: var(--emerald-dk); }
+
+/* Waste / Spend Bar */
+.waste-bar-wrap {
+    margin-bottom: 1.4rem;
+}
+.waste-bar-track {
+    height: 10px;
+    border-radius: 99px;
+    background: var(--border);
+    display: flex;
+    overflow: hidden;
+    margin-bottom: .45rem;
+}
+.waste-bar-fill {
+    height: 100%;
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+}
+.waste-bar-fill--good  { background: var(--emerald); }
+.waste-bar-fill--mid   { background: var(--amber); }
+.waste-bar-fill--waste { background: var(--red); }
+
+.waste-bar-legend {
+    display: flex;
+    gap: 1rem;
+    font-size: .75rem;
+    color: var(--text-mid);
+    font-weight: 600;
+}
+.legend-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-right: .25rem;
+    vertical-align: middle;
+}
+.legend-dot--good  { background: var(--emerald); }
+.legend-dot--mid   { background: var(--amber); }
+.legend-dot--waste { background: var(--red); }
+
+/* List Items */
+.mylist-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+}
+
+.mylist-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: .9rem 1rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: .75rem;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition);
+    animation: slideInItem .25s ease;
+}
+@keyframes slideInItem {
+    from { opacity:0; transform: translateY(-8px); }
+    to   { opacity:1; transform: translateY(0); }
+}
+.mylist-item:hover { border-color: var(--navy-light); box-shadow: var(--shadow-md); }
+
+/* Verdict dot on left */
+.item-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.item-dot--good    { background: var(--emerald); }
+.item-dot--consider{ background: var(--amber); }
+.item-dot--wasted  { background: var(--red); }
+
+/* Item info */
+.item-info { min-width: 0; }
+.item-name {
+    font-weight: 600;
+    font-size: .92rem;
+    color: var(--navy);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+.item-meta {
+    font-size: .78rem;
+    color: var(--text-light);
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    margin-top: .1rem;
+}
+.item-meta span { white-space: nowrap; }
+
+/* Cost per use pill */
+.item-cpu {
+    font-family: 'Syne', sans-serif;
+    font-size: .85rem;
+    font-weight: 700;
+    padding: .25rem .6rem;
+    border-radius: 99px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.item-cpu--good    { background: #ecfdf5; color: var(--emerald-dk); }
+.item-cpu--consider{ background: #fffbeb; color: #92400e; }
+.item-cpu--wasted  { background: #fff1f2; color: var(--red-dk); }
+
+/* Delete button */
+.item-delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: .25rem;
+    border-radius: 4px;
+    transition: all var(--transition);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+.item-delete:hover { color: var(--red); background: #fef2f2; }
+
+/* Empty State */
+.mylist-empty {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: var(--text-light);
+    display: none;
+}
+.mylist-empty.visible { display: block; }
+.mylist-empty > span { font-size: 2.5rem; display: block; margin-bottom: .75rem; }
+.mylist-empty p { font-size: .95rem; margin-bottom: .3rem; }
+.mylist-empty-sub { font-size: .85rem; }
+.mylist-empty strong { color: var(--text-mid); }
+
+/* Responsive totals */
+@media (max-width: 600px) {
+    .mylist-totals { grid-template-columns: 1fr 1fr; }
+    .mylist-item   { grid-template-columns: auto 1fr auto; }
+    .item-cpu      { display: none; } /* hide on mobile, shown in meta instead */
+}
+@media (max-width: 400px) {
+    .mylist-totals { grid-template-columns: 1fr 1fr; }
+}
