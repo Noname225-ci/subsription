@@ -364,6 +364,9 @@ function runCalculation() {
 //  DISPLAY RESULTS
 // =====================================================
 function displayResult({ monthlyCost, annualCost, dailyCost, costPerUse, usage, sub }) {
+    // --- Store for Save button ---
+    _currentResult = null; // reset first
+
     // --- Verdict logic ---
     let verdict, verdictClass, emoji, detailMsg, meterPct, showSuggestions;
 
@@ -445,6 +448,9 @@ function displayResult({ monthlyCost, annualCost, dailyCost, costPerUse, usage, 
         suggestionsDiv.style.display = 'none';
         resourcesInner.innerHTML = '';
     }
+
+    // --- Store result for Save button ---
+    _currentResult = { monthlyCost, annualCost, dailyCost, costPerUse, usage, sub, verdictClass };
 
     // --- Show results ---
     resultsDiv.classList.add('visible');
@@ -605,4 +611,250 @@ function hideResults() {
     meterFill.style.width   = '100%';
     meterFill.style.left    = '0';
     meterPointer.style.left = '0%';
+    // Reset save button
+    _currentResult = null;
+    if (saveAction) saveAction.classList.remove('visible');
+    if (saveConfirm) saveConfirm.classList.remove('visible');
+    if (saveBtn) {
+        saveBtn.classList.remove('saved');
+        saveBtn.querySelector('.save-btn-text').textContent = 'Save to My List';
+    }
 }
+
+
+// =====================================================
+//  MY SUBSCRIPTIONS — localStorage Feature
+//  Key: "wowi:subscriptions"
+//  Each entry: { id, name, category, monthlyCost,
+//                annualCost, costPerUse, usage,
+//                verdict, savedAt }
+// =====================================================
+
+const STORAGE_KEY = 'wowi:subscriptions';
+
+// DOM refs for list feature
+const saveBtn        = document.getElementById('save-btn');
+const saveAction     = document.getElementById('save-action');
+const saveConfirm    = document.getElementById('save-confirm');
+const mylistSection  = document.getElementById('mylist-section');
+const mylistItems    = document.getElementById('mylist-items');
+const mylistEmpty    = document.getElementById('mylist-empty');
+const mylistBadge    = document.getElementById('mylist-count-badge');
+const mylistClearBtn = document.getElementById('mylist-clear-btn');
+const totalMonthlyEl = document.getElementById('total-monthly');
+const totalAnnualEl  = document.getElementById('total-annual');
+const totalWasteEl   = document.getElementById('total-waste');
+const totalGoodEl    = document.getElementById('total-good');
+const wasteBarGood   = document.getElementById('waste-bar-good');
+const wasteBarMid    = document.getElementById('waste-bar-mid');
+const wasteBarWaste  = document.getElementById('waste-bar-waste');
+
+// Current result stored here so Save button can access it
+let _currentResult = null;
+
+// ── Load list on page start ──────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    renderList();
+});
+
+// ── Hook: called from displayResult() ───────────────
+// We patch this in — displayResult sets _currentResult and shows Save button
+const _originalDisplayResult = displayResult;
+// We extend displayResult via the end of the file instead (see below)
+
+// ── Save Button ──────────────────────────────────────
+if (saveBtn) {
+    saveBtn.addEventListener('click', () => {
+        if (!_currentResult) return;
+        saveEntry(_currentResult);
+    });
+}
+
+// ── Clear All ────────────────────────────────────────
+if (mylistClearBtn) {
+    mylistClearBtn.addEventListener('click', () => {
+        if (!confirm('Clear all saved subscriptions? This cannot be undone.')) return;
+        localStorage.removeItem(STORAGE_KEY);
+        renderList();
+    });
+}
+
+// ── Read / Write helpers ─────────────────────────────
+function readList() {
+    try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    } catch { return []; }
+}
+
+function writeList(list) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }
+    catch (e) { console.warn('localStorage write failed:', e); }
+}
+
+// ── Save entry ───────────────────────────────────────
+function saveEntry(result) {
+    const list = readList();
+
+    // Prevent exact duplicates (same id + same cost + same usage)
+    const exists = list.some(e =>
+        e.subId === result.sub.id &&
+        Math.abs(e.monthlyCost - result.monthlyCost) < 0.01 &&
+        e.usage === result.usage
+    );
+    if (exists) {
+        flashConfirm('Already saved!', false);
+        return;
+    }
+
+    const entry = {
+        entryId:    Date.now(),               // unique key for deletion
+        subId:      result.sub.id,
+        name:       result.sub.name,
+        category:   result.sub.category,
+        monthlyCost: result.monthlyCost,
+        annualCost:  result.annualCost,
+        costPerUse:  result.costPerUse,
+        usage:       result.usage,
+        verdict:     result.verdictClass,     // 'verdict-good' | 'verdict-consider' | 'verdict-wasted'
+        savedAt:     new Date().toISOString()
+    };
+
+    list.unshift(entry); // newest first
+    writeList(list);
+    renderList();
+    flashConfirm('Saved! ✓', true);
+
+    // Mark button as saved briefly
+    saveBtn.classList.add('saved');
+    saveBtn.querySelector('.save-btn-text').textContent = 'Saved ✓';
+    setTimeout(() => {
+        saveBtn.classList.remove('saved');
+        saveBtn.querySelector('.save-btn-text').textContent = 'Save to My List';
+    }, 2500);
+}
+
+function flashConfirm(msg, isGood) {
+    saveConfirm.textContent = msg;
+    saveConfirm.style.color = isGood ? 'var(--emerald-dk)' : 'var(--amber-dk)';
+    saveConfirm.classList.add('visible');
+    setTimeout(() => saveConfirm.classList.remove('visible'), 2500);
+}
+
+// ── Delete entry ─────────────────────────────────────
+function deleteEntry(entryId) {
+    const list = readList().filter(e => e.entryId !== entryId);
+    writeList(list);
+    renderList();
+}
+
+// ── Render full list ─────────────────────────────────
+function renderList() {
+    const list = readList();
+
+    // Show/hide section
+    if (list.length === 0) {
+        mylistSection.classList.remove('visible');
+        return;
+    }
+    mylistSection.classList.add('visible');
+
+    // Badge count
+    mylistBadge.textContent = list.length;
+
+    // Compute totals
+    let totalMonthly = 0, totalWaste = 0, totalGoodAmt = 0, totalMid = 0;
+    list.forEach(e => {
+        totalMonthly += e.monthlyCost;
+        if (e.verdict === 'verdict-wasted')  totalWaste   += e.monthlyCost;
+        if (e.verdict === 'verdict-good')    totalGoodAmt += e.monthlyCost;
+        if (e.verdict === 'verdict-consider')totalMid     += e.monthlyCost;
+    });
+
+    totalMonthlyEl.textContent = fmtAmt(totalMonthly);
+    totalAnnualEl.textContent  = fmtAmt(totalMonthly * 12);
+    totalWasteEl.textContent   = fmtAmt(totalWaste);
+    totalGoodEl.textContent    = fmtAmt(totalGoodAmt);
+
+    // Spend breakdown bar
+    if (totalMonthly > 0) {
+        wasteBarGood.style.width  = ((totalGoodAmt / totalMonthly) * 100).toFixed(1) + '%';
+        wasteBarMid.style.width   = ((totalMid      / totalMonthly) * 100).toFixed(1) + '%';
+        wasteBarWaste.style.width = ((totalWaste    / totalMonthly) * 100).toFixed(1) + '%';
+    }
+
+    // Empty state
+    mylistEmpty.classList.toggle('visible', list.length === 0);
+
+    // Render items
+    mylistItems.innerHTML = list.map(e => buildItemHTML(e)).join('');
+
+    // Bind delete buttons
+    mylistItems.querySelectorAll('.item-delete').forEach(btn => {
+        btn.addEventListener('click', () => deleteEntry(Number(btn.dataset.id)));
+    });
+}
+
+function buildItemHTML(e) {
+    const dotClass = e.verdict === 'verdict-good'
+        ? 'item-dot--good'
+        : e.verdict === 'verdict-consider'
+        ? 'item-dot--consider'
+        : 'item-dot--wasted';
+
+    const cpuClass = dotClass.replace('dot', 'cpu');
+
+    const cpuText = !isFinite(e.costPerUse) || e.costPerUse === Infinity
+        ? '∞/use — Not Used!'
+        : fmtAmt(e.costPerUse) + '/use';
+
+    const verdictLabel = e.verdict === 'verdict-good'
+        ? '✅ Worth It'
+        : e.verdict === 'verdict-consider'
+        ? '⚠️ Consider'
+        : '🔴 Wasted';
+
+    const dateStr = new Date(e.savedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+
+    return `
+        <li class="mylist-item" data-entry="${e.entryId}">
+            <span class="item-dot ${dotClass}" aria-hidden="true"></span>
+            <div class="item-info">
+                <span class="item-name" title="${e.name}">${e.name}</span>
+                <div class="item-meta">
+                    <span>${fmtAmt(e.monthlyCost)}/mo</span>
+                    <span>·</span>
+                    <span>${e.usage}×/mo</span>
+                    <span>·</span>
+                    <span>${verdictLabel}</span>
+                    <span>·</span>
+                    <span>Saved ${dateStr}</span>
+                </div>
+            </div>
+            <span class="item-cpu ${cpuClass}" aria-label="Cost per use: ${cpuText}">${cpuText}</span>
+            <button class="item-delete" data-id="${e.entryId}" aria-label="Remove ${e.name} from list" title="Remove">
+                ✕
+            </button>
+        </li>
+    `;
+}
+
+function fmtAmt(n) {
+    if (!isFinite(n)) return '∞';
+    return '$' + n.toFixed(2);
+}
+
+// ── Patch displayResult to expose _currentResult ────
+//    and show the Save button
+//    (runs after the main displayResult in the file)
+const _originalShowResults = resultsDiv;
+
+// Intercept via MutationObserver on results becoming visible
+const _resultObserver = new MutationObserver(() => {
+    if (resultsDiv.classList.contains('visible') && _currentResult) {
+        saveAction.classList.add('visible');
+    } else {
+        saveAction.classList.remove('visible');
+        saveConfirm.classList.remove('visible');
+    }
+});
+_resultObserver.observe(resultsDiv, { attributes: true, attributeFilter: ['class'] });
