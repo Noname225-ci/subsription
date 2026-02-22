@@ -283,7 +283,82 @@
                         <p>💡 If you cancelled this subscription, you'd save <strong id="savings-amount"></strong> per year.</p>
                     </div>
 
+                    <!-- Save to List Button -->
+                    <div class="save-action" id="save-action">
+                        <button type="button" id="save-btn" class="btn-save" aria-label="Save this subscription to your list">
+                            <span class="save-btn-icon" aria-hidden="true">＋</span>
+                            <span class="save-btn-text">Save to My List</span>
+                        </button>
+                        <span class="save-confirm" id="save-confirm" aria-live="polite"></span>
+                    </div>
+
                 </div>
+            </div>
+        </section>
+
+        <!-- ===== MY SUBSCRIPTIONS LIST ===== -->
+        <section class="mylist-section" id="mylist-section" aria-labelledby="mylist-heading">
+            <div class="container">
+
+                <div class="mylist-header">
+                    <div class="mylist-title-row">
+                        <h2 id="mylist-heading">
+                            <span aria-hidden="true">📋</span> My Subscriptions
+                            <span class="mylist-count-badge" id="mylist-count-badge">0</span>
+                        </h2>
+                        <button type="button" id="mylist-clear-btn" class="btn-clear-all" aria-label="Clear all saved subscriptions">
+                            Clear All
+                        </button>
+                    </div>
+                    <p class="mylist-subtitle">Saved in your browser — private to your device.</p>
+                </div>
+
+                <!-- Summary Totals -->
+                <div class="mylist-totals" id="mylist-totals">
+                    <div class="total-card">
+                        <span class="total-label">Total Monthly</span>
+                        <span class="total-value" id="total-monthly">$0.00</span>
+                    </div>
+                    <div class="total-card">
+                        <span class="total-label">Total Annual</span>
+                        <span class="total-value" id="total-annual">$0.00</span>
+                    </div>
+                    <div class="total-card total-card--waste">
+                        <span class="total-label">Monthly Waste 🔴</span>
+                        <span class="total-value" id="total-waste">$0.00</span>
+                    </div>
+                    <div class="total-card total-card--good">
+                        <span class="total-label">Good Value ✅</span>
+                        <span class="total-value" id="total-good">$0.00</span>
+                    </div>
+                </div>
+
+                <!-- Waste bar -->
+                <div class="waste-bar-wrap" id="waste-bar-wrap">
+                    <div class="waste-bar-track">
+                        <div class="waste-bar-fill waste-bar-fill--good"  id="waste-bar-good"  style="width:0%"></div>
+                        <div class="waste-bar-fill waste-bar-fill--mid"   id="waste-bar-mid"   style="width:0%"></div>
+                        <div class="waste-bar-fill waste-bar-fill--waste" id="waste-bar-waste" style="width:0%"></div>
+                    </div>
+                    <div class="waste-bar-legend">
+                        <span><span class="legend-dot legend-dot--good"></span>Worth It</span>
+                        <span><span class="legend-dot legend-dot--mid"></span>Consider</span>
+                        <span><span class="legend-dot legend-dot--waste"></span>Wasted</span>
+                    </div>
+                </div>
+
+                <!-- Saved Items -->
+                <ul class="mylist-items" id="mylist-items" aria-label="Saved subscriptions">
+                    <!-- Populated by JS -->
+                </ul>
+
+                <!-- Empty state -->
+                <div class="mylist-empty" id="mylist-empty">
+                    <span aria-hidden="true">📭</span>
+                    <p>No subscriptions saved yet.</p>
+                    <p class="mylist-empty-sub">Calculate a subscription above and hit <strong>Save to My List</strong>.</p>
+                </div>
+
             </div>
         </section>
 
