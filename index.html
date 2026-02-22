@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- === Primary SEO Meta Tags === -->
+    <title>Subscription Value Calculator – Is Your Netflix, Spotify & More Worth It?</title>
+    <meta name="description" content="Find out if your subscriptions are wasted money or great value. Calculate the true cost-per-use of Netflix, Spotify, Disney+, gaming, fitness apps & more. Free tool + smart recommendations.">
+    <meta name="keywords" content="subscription calculator, cost per use calculator, is netflix worth it, subscription value, cancel subscriptions, subscription tracker, streaming value calculator, wasted money subscriptions">
+    <meta name="author" content="Wasted or Worth It">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://wasted-or-worth-it-calculator.netlify.app/">
+
+    <!-- === Open Graph (Facebook, LinkedIn) === -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://wasted-or-worth-it-calculator.netlify.app/">
+    <meta property="og:title" content="Subscription Value Calculator – Wasted or Worth It?">
+    <meta property="og:description" content="Calculate the true cost-per-use of your subscriptions and discover if Netflix, Spotify, Disney+ and more are actually worth your money. Free, instant results.">
+    <meta property="og:image" content="https://wasted-or-worth-it-calculator.netlify.app/og-image.png">
+    <meta property="og:site_name" content="Wasted or Worth It?">
+    <meta property="og:locale" content="en_US">
+
+    <!-- === Twitter Card === -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Subscription Value Calculator – Wasted or Worth It?">
+    <meta name="twitter:description" content="Find out if your subscriptions are worth the cost. Calculate cost-per-use for Netflix, Spotify, gaming & more.">
+    <meta name="twitter:image" content="https://wasted-or-worth-it-calculator.netlify.app/og-image.png">
+
+    <!-- === Google Site Verification === -->
+    <meta name="google-site-verification" content="263c7fff9858446b">
+
+    <!-- === Structured Data (JSON-LD) === -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://wasted-or-worth-it-calculator.netlify.app/#webapp",
+          "name": "Subscription Value Calculator",
+          "description": "A free online tool that calculates the true cost-per-use of subscriptions like Netflix, Spotify, Disney+, Xbox Game Pass, and more. Helps users decide if their subscriptions are good value or wasted money.",
+          "url": "https://wasted-or-worth-it-calculator.netlify.app/",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "All",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "Cost-per-use calculation",
+            "Monthly and yearly subscription support",
+            "Smart value verdict (Good/Consider/Wasted)",
+            "Free alternative recommendations",
+            "Annual savings projection"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://wasted-or-worth-it-calculator.netlify.app/#website",
+          "url": "https://wasted-or-worth-it-calculator.netlify.app/",
+          "name": "Wasted or Worth It?",
+          "description": "Simple tools for smarter spending decisions on subscriptions and recurring costs.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Wasted or Worth It?",
+            "url": "https://wasted-or-worth-it-calculator.netlify.app/"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do I calculate if my subscription is worth it?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Enter your subscription name, monthly or yearly cost, and how many times you use it per month. The calculator divides your monthly cost by your usage to find the true cost-per-use. Under $2 per use is generally good value; over $5 per use suggests you should consider alternatives."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is Netflix worth the subscription cost?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Netflix's value depends on how often you watch. If you watch 8+ movies or episodes per month on a Standard plan (~$15.49), your cost drops below $2 per use which is considered good value. Watching less than 4 times per month likely means you're overpaying."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is a good cost-per-use for a subscription?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A cost-per-use under $2 is generally considered excellent value for digital subscriptions. Between $2–$5 per use warrants consideration of alternatives. Over $5 per use typically means the subscription is not providing good value for your spending habits."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
+    <!-- === Fonts === -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+    <!-- === Stylesheet === -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Site Header -->
+    <header class="site-header" role="banner">
+        <div class="header-inner">
+            <div class="header-brand">
+                <span class="header-icon" aria-hidden="true">💸</span>
+                <h1>Wasted <span class="header-or">or</span> Worth It?</h1>
+            </div>
+            <p class="header-tagline">The subscription reality check</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="site-main" role="main">
+
+        <!-- Hero Section -->
+        <section class="hero-section" aria-labelledby="hero-heading">
+            <div class="container">
+                <div class="hero-text">
+                    <h2 id="hero-heading">Subscription Value Calculator</h2>
+                    <p>Stop guessing. Find out exactly how much each watch, listen, or session actually costs you — then decide if it's money well spent.</p>
+                </div>
+
+                <!-- Stats Strip -->
+                <div class="stats-strip" aria-label="Key statistics">
+                    <div class="stat-item">
+                        <span class="stat-number">$273</span>
+                        <span class="stat-label">avg. monthly subscriptions per household</span>
+                    </div>
+                    <div class="stat-divider" aria-hidden="true"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">42%</span>
+                        <span class="stat-label">of subscriptions are rarely or never used</span>
+                    </div>
+                    <div class="stat-divider" aria-hidden="true"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">$3,276</span>
+                        <span class="stat-label">potential annual savings by auditing subs</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculator Section -->
+        <section class="calculator-section" aria-labelledby="calc-heading">
+            <div class="container">
+                <div class="calc-card">
+                    <h3 id="calc-heading" class="sr-only">Calculate Your Subscription Value</h3>
+
+                    <form id="calculator-form" novalidate aria-label="Subscription value calculator">
+
+                        <!-- Step 1: Choose Service -->
+                        <div class="form-step">
+                            <div class="step-label">
+                                <span class="step-number" aria-hidden="true">1</span>
+                                <label for="subscription-select">Which service?</label>
+                            </div>
+                            <div class="input-wrapper">
+                                <select id="subscription-select" required aria-required="true" aria-describedby="select-hint">
+                                    <option value="" disabled selected>— Select a subscription —</option>
+                                </select>
+                                <span class="select-arrow" aria-hidden="true">▾</span>
+                            </div>
+                            <p id="select-hint" class="field-hint">Can't find it? Pick a generic option from the same category.</p>
+                        </div>
+
+                        <!-- Step 2: Cost -->
+                        <div class="form-step form-row">
+                            <div class="form-col">
+                                <div class="step-label">
+                                    <span class="step-number" aria-hidden="true">2</span>
+                                    <label for="subscription-cost">What do you pay?</label>
+                                </div>
+                                <div class="input-wrapper input-with-prefix">
+                                    <span class="input-prefix currency-symbol" aria-hidden="true">$</span>
+                                    <input type="number" id="subscription-cost" step="0.01" min="0" placeholder="e.g. 15.99" required aria-required="true" aria-label="Subscription cost in dollars">
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="step-label">
+                                    <span class="step-number-hidden" aria-hidden="true">2</span>
+                                    <label for="cost-frequency">Billing cycle</label>
+                                </div>
+                                <div class="input-wrapper">
+                                    <select id="cost-frequency" required aria-required="true">
+                                        <option value="monthly" selected>Monthly</option>
+                                        <option value="yearly">Yearly / Annual</option>
+                                    </select>
+                                    <span class="select-arrow" aria-hidden="true">▾</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Usage -->
+                        <div class="form-step">
+                            <div class="step-label">
+                                <span class="step-number" aria-hidden="true">3</span>
+                                <label for="usage-frequency">How often do you use it per month?</label>
+                            </div>
+                            <div class="usage-input-group">
+                                <button type="button" class="usage-btn" id="usage-minus" aria-label="Decrease usage">−</button>
+                                <input type="number" id="usage-frequency" min="0" max="999" value="" placeholder="0" required aria-required="true" aria-label="Times used per month">
+                                <button type="button" class="usage-btn" id="usage-plus" aria-label="Increase usage">+</button>
+                            </div>
+                            <p class="field-hint">Count movies watched, gym visits, listening days, projects — whatever applies.</p>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="form-actions">
+                            <button type="submit" id="calculate-btn" class="btn-primary">
+                                <span class="btn-text">Calculate Value</span>
+                                <span class="btn-icon" aria-hidden="true">→</span>
+                            </button>
+                            <button type="button" id="reset-btn" class="btn-secondary" aria-label="Reset the form">
+                                Reset
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Error Message -->
+                <div id="error-message" class="error-message" role="alert" aria-live="polite" style="display:none;"></div>
+
+                <!-- Results Area -->
+                <div id="results" aria-live="polite" aria-label="Calculation results">
+
+                    <!-- Value Meter -->
+                    <div class="meter-section">
+                        <div class="meter-label-row">
+                            <span class="meter-label-bad">Wasted</span>
+                            <span class="meter-label-mid">Consider</span>
+                            <span class="meter-label-good">Worth It</span>
+                        </div>
+                        <div class="meter-track" role="progressbar" aria-label="Value meter" aria-valuemin="0" aria-valuemax="100">
+                            <div class="meter-fill" id="meter-fill"></div>
+                            <div class="meter-pointer" id="meter-pointer" aria-hidden="true"></div>
+                        </div>
+                    </div>
+
+                    <!-- Result Cards -->
+                    <div class="result-cards">
+                        <div class="result-card result-card--main" id="result-card-main">
+                            <span class="result-label">Cost Per Use</span>
+                            <span class="result-value" id="cost-per-use">—</span>
+                            <span class="result-sub" id="cost-per-use-sub"></span>
+                        </div>
+                        <div class="result-card" id="result-card-monthly">
+                            <span class="result-label">Monthly Cost</span>
+                            <span class="result-value result-value--sm" id="monthly-cost">—</span>
+                        </div>
+                        <div class="result-card" id="result-card-annual">
+                            <span class="result-label">Annual Cost</span>
+                            <span class="result-value result-value--sm" id="annual-cost">—</span>
+                        </div>
+                        <div class="result-card" id="result-card-daily">
+                            <span class="result-label">Cost Per Day</span>
+                            <span class="result-value result-value--sm" id="daily-cost">—</span>
+                        </div>
+                    </div>
+
+                    <!-- Verdict Banner -->
+                    <div class="verdict-banner" id="verdict-banner" role="status">
+                        <span class="verdict-emoji" id="verdict-emoji" aria-hidden="true"></span>
+                        <span class="verdict-text" id="verdict-text"></span>
+                        <span class="verdict-detail" id="verdict-detail"></span>
+                    </div>
+
+                    <!-- Savings Prompt (shows on bad verdict) -->
+                    <div class="savings-prompt" id="savings-prompt">
+                        <p>💡 If you cancelled this subscription, you'd save <strong id="savings-amount"></strong> per year.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Free Resources Blog Section -->
+        <section class="resources-section" id="suggestions" aria-label="Free alternatives and resources">
+            <div class="container">
+                <div class="resources-inner" id="resources-inner">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section (for SEO) -->
+        <section class="faq-section" aria-labelledby="faq-heading">
+            <div class="container">
+                <h2 id="faq-heading" class="section-title">Frequently Asked Questions</h2>
+                <div class="faq-grid">
+                    <details class="faq-item">
+                        <summary class="faq-question">How is cost-per-use calculated?</summary>
+                        <div class="faq-answer">
+                            <p>We take your subscription's monthly cost (converting yearly plans to monthly) and divide it by the number of times you use it per month. For example, a $15/month service used 5 times a month costs <strong>$3.00 per use</strong>.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">What counts as "one use"?</summary>
+                        <div class="faq-answer">
+                            <p>It depends on the service. For streaming, count movies or episodes watched. For music, count days you listened. For gym memberships, count individual visits. For software, count project sessions. Be honest — it's your money!</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">What's a good cost-per-use threshold?</summary>
+                        <div class="faq-answer">
+                            <p><strong>Under $2/use</strong> = Great value for a digital service. <strong>$2–$5/use</strong> = Worth reconsidering or reducing. <strong>Over $5/use</strong> = You're likely overspending for the value you're getting.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Should I cancel subscriptions rated "Wasted"?</summary>
+                        <div class="faq-answer">
+                            <p>Not necessarily right away. Consider whether you have an upcoming binge period, whether it's bundled with something else you value, or whether a cheaper tier exists. The calculator helps you reflect — the final call is yours.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Are the recommended free alternatives legal?</summary>
+                        <div class="faq-answer">
+                            <p>Yes — all free sites we recommend are 100% legal, ad-supported platforms licensed to distribute their content. We never link to piracy sites. The Reddit communities we link to are general interest forums where users discuss legal money-saving strategies.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">What is Reddit and how do I use it?</summary>
+                        <div class="faq-answer">
+                            <p>Reddit is a huge online community organized into topic-specific forums called "subreddits" (written as r/something). You can browse them without an account — just click a link and read. Creating a free account lets you ask questions and get personalized advice from thousands of knowledgeable community members.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ad Placeholder -->
+        <div class="ad-placeholder" role="complementary" aria-label="Advertisement">
+            <span>Advertisement</span>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-inner">
+            <p class="footer-brand">💸 Wasted or Worth It?</p>
+            <p class="footer-copy">&copy; <span id="current-year">2024</span> — Simple tools for smarter spending.</p>
+            <p class="footer-disclaimer">Cost thresholds are guidelines. Your mileage may vary based on personal value and circumstances.</p>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
